@@ -1,5 +1,6 @@
-# prooted-termux-64on32
-A forked prooted termux from https://github.com/Neo-Oli/chrooted-termux for 32 bit Android OS user on 64 Bit device.
+# prooted-termux-aarch64
+Termux aarch64 for every Android/ChromiumOS Arch
+A forked prooted termux from https://github.com/Neo-Oli/chrooted-termux for every Android Device (Every arch).
 
 ## Running
 ```bash
