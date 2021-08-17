@@ -15,20 +15,21 @@ qemu=$(command -v qemu-aarch64)
 
 mkdir -p binds
 folder=termux-fs/data/data/com.termux/files
-download=`curl https://api.github.com/repos/termux/termux-packages/releases | jq -r .[0].assets[0].browser_download_url`
 if [ -d "$folder" ]; then
     first=1
     echo "skipping downloading"
 fi
 if [ "$first" != 1 ];then
     if [ ! -f "bootstrap.zip" ]; then
-        echo "downloading bootstrap package"
-        wget $download -O bootstrap.zip
+    	echo "Getting Download link from Github Release...."
+    	download=`curl https://api.github.com/repos/termux/termux-packages/releases | jq -r .[0].assets[0].browser_download_url`
+        echo "Downloading bootstrap package"
+        curl -L#o bootstrap.zip $download
     fi
     cur=`pwd`
     mkdir -p $folder/usr
     cd $folder/usr
-    echo "decompressing bootstrap image image"
+    echo "Decompressing bootstrap image image"
     unzip $cur/bootstrap.zip
     while read p; do
         echo "creating symlink for $p"
@@ -36,15 +37,12 @@ if [ "$first" != 1 ];then
     done <SYMLINKS.txt
     rm SYMLINKS.txt
     for f in bin libexec lib/apt/methods;do
-        echo "making files in $f executable"
+        echo "Making files in $f executable"
         chmod -R 700 $f/*
     done
     cd $cur
     mkdir -p $folder/home
-    echo "Setting permissions of root directory"
-    #chmod -rw termux-fs
-    #chmod -rw termux-fs/data
-    #chmod -rw termux-fs/data/data/
+    mkdir -p termux-fs/data/data/com.termux/cache/apt/archives/partials
 fi
 ff=/data/data/com.termux/files
 bin=start.sh
