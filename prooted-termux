@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/bash
 
 jq=$(command -v jq)
 proot=$(command -v proot)
@@ -30,7 +30,7 @@ if [ "$first" != 1 ];then
     mkdir -p $folder/usr
     cd $folder/usr
     echo "Decompressing bootstrap image image"
-    unzip $cur/bootstrap.zip
+    busybox unzip $cur/bootstrap.zip
     while read p; do
         echo "creating symlink for $p"
         ln -s ${p/←/ }
@@ -49,7 +49,7 @@ bin=start.sh
 echo "writing launch script"
 
 cat > $bin <<- EOM
-#!/bin/bash
+#!/usr/bin/bash
 proot=$(command -v proot)
 qemu=$(command -v qemu-aarch64)
 basedir=\$(dirname \$0)
@@ -97,7 +97,6 @@ else
     eval "exec \$command login -c '\$com'"
 fi
 EOM
-echo "fixing shebang of $bin"
-termux-fix-shebang $bin
+
 echo "making $bin executable"
 chmod +x $bin
