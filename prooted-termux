@@ -22,7 +22,7 @@ fi
 if [ "$first" != 1 ];then
     if [ ! -f "bootstrap.zip" ]; then
     	echo "Getting Download link from Github Release...."
-    	download=`curl https://api.github.com/repos/termux/termux-packages/releases | jq -r .[0].assets[0].browser_download_url`
+    	download=`curl -L# https://api.github.com/repos/termux/termux-packages/releases | jq -r .[0].assets[0].browser_download_url`
         echo "Downloading bootstrap package"
         curl -L#o bootstrap.zip $download
     fi
